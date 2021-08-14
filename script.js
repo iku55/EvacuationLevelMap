@@ -23,7 +23,7 @@ $.getJSON("https://iku55.000webhostapp.com/api/evacuation/list/" , function(data
         var lv3 = data.filter(d => d.level == 3).length;
         var lv4 = data.filter(d => d.level == 4).length;
         var lv5 = data.filter(d => d.level == 5).length;
-        $('.detail').html('<p><span class="lv3">高齢者等避難</span>: '+lv3+'自治体<br><span class="lv4">避難指示</span>: '+lv4+'自治体<br><span class="lv5">緊急安全確保</span>: '+lv5+'自治体</p><p>［注意］<br>Yahoo! 天気・災害に掲載されていない自治体がある可能性があります。<br>また、地図は○○区の表示に非対応です。一覧から確認してください。</p><ul id="list"></ul>');
+        $('.detail').html('<p><span class="lv3">高齢者等避難</span>: '+lv3+'自治体<br><span class="lv4">避難指示</span>: '+lv4+'自治体<br><span class="lv5">緊急安全確保</span>: '+lv5+'自治体</p><ul id="list"></ul>');
         var
             ulObj = $("ul#list"),
             len = EVACUATION_DATA.length;
@@ -41,7 +41,7 @@ $.getJSON("https://iku55.000webhostapp.com/api/evacuation/list/" , function(data
     map = L.map('map-container');
     map.setView([36, 137], 7);
     map.attributionControl.addAttribution(
-        "<a href='http://www.data.jma.go.jp/developer/gis.html' target='_blank'>地図データ：気象庁</a>"
+        "地図データ：<a href='https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N03-v2_3.html' target='_blank'>国土数値情報　行政区域データ(N03)</a>/<a href='https://www.data.jma.go.jp/developer/gis.html' target='_blank'>気象庁</a>"
     );
     map.attributionControl.addAttribution(
         "<a href='https://crisis.yahoo.co.jp/evacuation/' target='_blank'>データ：Yahoo! 天気・災害</a>"
@@ -85,7 +85,7 @@ $.getJSON("https://iku55.000webhostapp.com/api/evacuation/list/" , function(data
             // console.log((feature.properties.regioncode !== null) ? new String(feature.properties.regioncode).slice(0, -2) : null);
             // console.log(EVACUATION_DATA.filter(evacuation => evacuation.city.code == ((feature.properties.regioncode !== null) ? new String(feature.properties.regioncode).slice(0, -2) : null)));
 
-            var evacuation = EVACUATION_DATA.filter(evacuation => evacuation.city.code == ((feature.properties.regioncode !== null) ? new String(feature.properties.regioncode).slice(0, -2) : null));
+            var evacuation = EVACUATION_DATA.filter(evacuation => evacuation.city.code == ((feature.properties.N03_007 !== null) ? new String(feature.properties.N03_007) : null));
             evacuation = (evacuation !== null) ? evacuation[0] : null;
             // console.log(evacuation);
             // console.log((evacuation !== undefined)?evacuation['level']:undefined);
@@ -140,13 +140,19 @@ $.getJSON("https://iku55.000webhostapp.com/api/evacuation/list/" , function(data
                 click: (e) => {
                     var targetFeature = e.target.feature;
                     console.log(e.target.feature.properties.name);
-                    var evacuation = EVACUATION_DATA.filter(evacuation => evacuation.city.code == ((targetFeature.properties.regioncode !== null) ? new String(targetFeature.properties.regioncode).slice(0, -2) : null));
+                    var evacuation = EVACUATION_DATA.filter(evacuation => evacuation.city.code == ((targetFeature.properties.N03_007 !== null) ? new String(targetFeature.properties.N03_007) : null));
                     evacuation = (evacuation !== undefined) ? evacuation[0] : undefined;
                     var evacuationLevel = (evacuation !== undefined) ? new String(evacuation.level) : '0';
+
+                    console.log([targetFeature.properties.N03_001, targetFeature.properties.N03_002, targetFeature.properties.N03_003, targetFeature.properties.N03_004, targetFeature.properties.N03_007]);
+                    var fName = targetFeature.properties.N03_001 + ' ' + 
+                        ((targetFeature.properties.N03_002 == null) ? '' : (targetFeature.properties.N03_002 + ' ')) + 
+                        ((targetFeature.properties.N03_003 == null) ? '' : (targetFeature.properties.N03_003 + ' ')) + 
+                        ((targetFeature.properties.N03_004 == null) ? '' : (targetFeature.properties.N03_004));
                     if (evacuationLevel == 0) {
-                        $('.detail').html('<p class="back" onclick="home();">戻る</p><h1>'+targetFeature.properties.name+'</h1><p class="hurigana">'+targetFeature.properties.namekana.replaceAll("ほくぶ", "").replaceAll("なんぶ", "").replaceAll("せいぶ", "").replaceAll("とうぶ", "")+'</p><h3>避難情報</h3><p>'+evacuationTexts[evacuationLevel]+'</p>');
+                        $('.detail').html('<p class="back" onclick="home();">戻る</p><h1>'+fName+'</h1><h3>避難情報</h3><p>'+evacuationTexts[evacuationLevel]+'</p>');
                     } else {
-                        $('.detail').html('<p class="back" onclick="home();">戻る</p><h1>'+evacuation.pref.name+' '+evacuation.city.name+'</h1><p class="hurigana">'+targetFeature.properties.namekana.replaceAll("ほくぶ", "").replaceAll("なんぶ", "").replaceAll("せいぶ", "").replaceAll("とうぶ", "")+'</p><p><div class="table"></div><br><a href="'+evacuation.link+'" target="_blank">Yahoo! 天気・災害で詳細を見る</a><br><a href="https://iku55.000webhostapp.com/api/evacuation/get/'+evacuation.pref.code+'/'+evacuation.city.code+'/" download>JSONをダウンロード</a></p>');
+                        $('.detail').html('<p class="back" onclick="home();">戻る</p><h1>'+fName+'</h1><p><div class="table"></div><br><a href="'+evacuation.link+'" target="_blank">Yahoo! 天気・災害で詳細を見る</a><br><a href="https://iku55.000webhostapp.com/api/evacuation/get/'+evacuation.pref.code+'/'+evacuation.city.code+'/" download>JSONをダウンロード</a></p>');
                         $.getJSON("https://iku55.000webhostapp.com/api/evacuation/get/"+evacuation.pref.code+'/'+evacuation.city.code+'/' , function(evdata) {
                             console.log(evdata);
                             $('div.table').html('<h3>避難情報</h3>'+'<p style="display: grid; grid-template-columns: 120px calc(100% - 120px);"><span class="lv'+evacuationLevel+'" style="height: 1.5em; text-align: center;">警戒レベル'+evacuationLevel+'</span>'+evdata.reason+'</p><p>計 '+evdata.total.households+'世帯 '+evdata.total.people+'人</p>'+'<div class="evlist"></div>'+'<p>'+evdata.supplement+'</p>');
@@ -213,8 +219,10 @@ $.getJSON("https://iku55.000webhostapp.com/api/evacuation/list/" , function(data
       }
       
       //fetch the geojson and add it to our geojson layer
-      getGeoData('japan.topojson').then(data => geojson.addData(data));
-      getGeoData('jp2.topojson').then(data => japan2json.addData(data));
+      getGeoData('japan_v3.topojson').then((data) => {
+          geojson.addData(data);
+          getGeoData('jp2.topojson').then(data => japan2json.addData(data));
+        });
 
     //   $('.leaflet-control-zoom.leaflet-bar.leaflet-control').append($('<a class="leaflet-control-home">').on('click',(e) => {
     //     map.fitBounds(jpnGroup.getBounds());
