@@ -23,7 +23,7 @@ $.getJSON("https://iku55.000webhostapp.com/api/evacuation/list/" , function(data
         var lv3 = data.filter(d => d.level == 3).length;
         var lv4 = data.filter(d => d.level == 4).length;
         var lv5 = data.filter(d => d.level == 5).length;
-        $('.detail').html('<p><span class="lv3">高齢者等避難</span>: '+lv3+'自治体<br><span class="lv4">避難指示</span>: '+lv4+'自治体<br><span class="lv5">緊急安全確保</span>: '+lv5+'自治体</p><ul id="list"></ul>');
+        $('.detail').html('<p><span class="lv3">高齢者等避難</span>: '+lv3+'自治体<br><span class="lv4">避難指示</span>: '+lv4+'自治体<br><span class="lv5">緊急安全確保</span>: '+lv5+'自治体</p><p>［注意］<br>Yahoo! 天気・災害に掲載されていない自治体がある可能性があります。<br>また、地図は○○区の表示に非対応です。一覧から確認してください。</p><ul id="list"></ul>');
         var
             ulObj = $("ul#list"),
             len = EVACUATION_DATA.length;
