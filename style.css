@@ -1,0 +1,138 @@
+@font-face {
+    font-family: 'MPlus_Regular';
+    src: url(./Mplus2-Regular.ttf);
+}
+body, html {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    font-family: 'MPlus_Regular';
+}
+body {
+    display: grid;
+    grid-template-rows: 100% 100%;
+    grid-template-columns: 1fr 2fr;
+    grid-template-areas:
+        "detail map";
+}
+#map-container {
+    grid-area: map;
+    background-color: #1b1b1b;
+}
+.detail {
+    grid-area: detail;
+    overflow:auto;
+    background-color: #111;
+    color: #ddd;
+}
+.detail li {
+    list-style: none;
+}
+.detail ul {
+    padding-left: 10px;
+}
+span.lv3 {
+    background-color: red;
+    color: white;
+}
+p.lv3 {
+    background-color: red;
+    color: white;
+    width: 100%;
+    margin: 0;
+    padding: 5px 0;
+}
+span.lv4 {
+    background-color: purple;
+    color: white;
+}
+p.lv4 {
+    background-color: purple;
+    color: white;
+    width: 100%;
+    margin: 0;
+    padding: 5px 0;
+}
+span.lv5 {
+    background-color: black;
+    border: 5px solid purple;
+    color: yellow;
+}
+p.lv5 {
+    background-color: black;
+    border: 5px solid purple;
+    color: yellow;
+    width: calc(100% - 10px);
+    margin: 0;
+    padding: 5px 0;
+}
+h1 {
+    margin: 0;
+}
+.hurigana {
+    margin: 0;
+    margin-bottom: .2rem;
+}
+a, a:visited {
+    color: #ddd;
+}
+a:hover {
+    color: white;
+}
+.back {
+    cursor: pointer;
+    margin: 0;
+    margin-bottom: .2rem;
+}
+.leaflet-container .leaflet-control-attribution {
+    background-color: transparent;
+    color: #ddd;
+}
+.leaflet-container .leaflet-control-attribution a, .leaflet-container .leaflet-control-attribution a:visited {
+    color: #ddd;
+}
+.leaflet-container .leaflet-control-attribution a:hover {
+    color: white;
+}
+.leaflet-control-zoom-in, .leaflet-control-zoom-out, .leaflet-control-home {
+    background-color: #666 !important;
+    color: #ddd !important;
+}
+.leaflet-control-home {
+    background: url(defaultView.png);
+    background-size: contain;
+}
+table {
+    width: 100%;
+    border-spacing: 0;
+}
+table td {
+	background: #444;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 3px;
+    padding-right: 3px;
+}
+table tr:nth-child(odd) td {
+	background: #333;
+}
+
+/*スクロールバー全体*/
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/*スクロールバーの軌道*/
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: #222;
+}
+
+/*スクロールバーの動く部分*/
+::-webkit-scrollbar-thumb {
+  background-color: #666;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background-color: #888;
+}
