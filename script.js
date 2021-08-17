@@ -10,7 +10,7 @@ var home;
 var jpnGroup = new L.featureGroup;
 var map;
 $.getJSON("https://iku55.000webhostapp.com/api/evacuation/list/" , function(data) {
-    EVACUATION_DATA = data;
+    EVACUATION_DATA = data.list;
     // var
     //   ulObj = $("ul"),
     //   len = data.length;
@@ -20,9 +20,9 @@ $.getJSON("https://iku55.000webhostapp.com/api/evacuation/list/" , function(data
     //     ulObj.append($("<li>").text(data[i].pref.name + ' ' + data[i].city.name + ': ' + data[i].level));
     // }
     home = () => {
-        var lv3 = data.filter(d => d.level == 3).length;
-        var lv4 = data.filter(d => d.level == 4).length;
-        var lv5 = data.filter(d => d.level == 5).length;
+        var lv3 = EVACUATION_DATA.filter(d => d.level == 3).length;
+        var lv4 = EVACUATION_DATA.filter(d => d.level == 4).length;
+        var lv5 = EVACUATION_DATA.filter(d => d.level == 5).length;
         $('.detail').html('<p><span class="lv3">高齢者等避難</span>: '+lv3+'自治体<br><span class="lv4">避難指示</span>: '+lv4+'自治体<br><span class="lv5">緊急安全確保</span>: '+lv5+'自治体</p><ul id="list"></ul>');
         var
             ulObj = $("ul#list"),
