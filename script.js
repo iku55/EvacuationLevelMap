@@ -46,7 +46,9 @@ $.getJSON("https://iku55.000webhostapp.com/api/evacuation/list/" , function(data
     map.attributionControl.addAttribution(
         "<a href='https://crisis.yahoo.co.jp/evacuation/' target='_blank'>データ：Yahoo! 天気・災害</a>"
     );
-
+    map.attributionControl.addAttribution(
+        "最終更新："+new Date(Number(data.lastChecked)*1000).toLocaleString()
+    );
     
     //   let bglayer_Positron = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
     //     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
