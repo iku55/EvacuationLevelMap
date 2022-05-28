@@ -38,7 +38,7 @@ $.getJSON("https://iku55.000webhostapp.com/api/evacuation/list/" , function(data
     home();
 
 
-    map = L.map('map-container', {preferCanvas:true});
+    map = L.map('map-container');
     map.setView([36, 137], 7);
     map.attributionControl.addAttribution(
         "地図データ：<a href='https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N03-v2_3.html' target='_blank'>国土数値情報　行政区域データ(N03)</a>/<a href='https://www.data.jma.go.jp/developer/gis.html' target='_blank'>気象庁</a>"
